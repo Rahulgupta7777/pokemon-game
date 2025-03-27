@@ -9,15 +9,20 @@ export default function PokemonTrialGame() {
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState("Select the Pokémon with higher Base Experience!");
   const [gameWon, setGameWon] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     fetchRandomPokemon();
   }, []);
 
   async function fetchRandomPokemon() {
-    const id1 = Math.floor(Math.random() * 898) + 1;
-    const id2 = Math.floor(Math.random() * 898) + 1;
-
+    let id1 = Math.floor(Math.random() * 898) + 1;
+    let id2;
+    
+    do {
+      id2 = Math.floor(Math.random() * 898) + 1;
+    } while (id1 === id2); // Ensure they are different
+    
     const [poke1, poke2] = await Promise.all([
       fetch(API_URL + id1).then((res) => res.json()),
       fetch(API_URL + id2).then((res) => res.json())
@@ -35,31 +40,46 @@ export default function PokemonTrialGame() {
 
     if (choice === correct) {
       setMessage(`✅ Correct! ${pokemon1.name.toUpperCase()}: ${pokemon1.base_experience} XP vs ${pokemon2.name.toUpperCase()}: ${pokemon2.base_experience} XP`);
-      if (trialsLeft === 1) {
-        setGameWon(true);
-        setMessage("🏆 Congratulations! You have won! Play Again?");
-        setTrialsLeft(0);
-        return;
-      }
-      setTrialsLeft((prev) => prev - 1);
+      
+      setCount((prevCount) => {
+        const newCount = prevCount + 1;
+        if (newCount === 3) {
+          setGameWon(true);
+          setMessage("🏆 Congratulations! You have won! You are the Pokémon expert! Play Again?");
+        }
+        return newCount;
+      });
+
+      setTrialsLeft((prevTrials) => {
+        const newTrials = prevTrials - 1;
+        if (newTrials === 0 && count + 1 < 3) {
+          setGameOver(true);
+          setMessage("💀 Game Over! Click restart to play again.");
+        }
+        return newTrials;
+      });
+
     } else {
-      setTrialsLeft((prev) => Math.max(prev - 1, 0));
-      setMessage(`❌ Wrong! ${pokemon1.name.toUpperCase()}: ${pokemon1.base_experience} XP vs ${pokemon2.name.toUpperCase()}: ${pokemon2.base_experience} XP`);
-      if (trialsLeft === 1) {
-        setGameOver(true);
-        setTrialsLeft(0);
-        setMessage("💀 Game Over! Click restart to play again.");
-        return;
-      }
+      setTrialsLeft((prevTrials) => {
+        const newTrials = Math.max(prevTrials - 1, 0);
+        if (newTrials === 0) {
+          setGameOver(true);
+          setMessage("💀 Game Over! Click restart to play again.");
+        } else {
+          setMessage(`❌ Wrong! ${pokemon1.name.toUpperCase()}: ${pokemon1.base_experience} XP vs ${pokemon2.name.toUpperCase()}: ${pokemon2.base_experience} XP`);
+        }
+        return newTrials;
+      });
     }
-    
-    setTimeout(fetchRandomPokemon, 500); // 0.5-second delay before switching Pokémon
+
+    setTimeout(fetchRandomPokemon, 500); // Small delay before switching Pokémon
   }
 
   function restartGame() {
     setTrialsLeft(3);
     setGameOver(false);
     setGameWon(false);
+    setCount(0);
     fetchRandomPokemon();
   }
 
@@ -100,4 +120,3 @@ export default function PokemonTrialGame() {
     </div>
   );
 }
-
