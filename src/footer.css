@@ -1,0 +1,19 @@
+.footer {
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 15px;
+    margin-top: 30px;
+    background: #b30000;
+    border-radius: 10px;
+}
+
+.footer-quote {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    color: #ffcc00;
+    margin-top: 5px;
+    text-transform: uppercase;
+}

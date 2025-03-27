@@ -1,0 +1,56 @@
+/* Navbar Container */
+nav {
+    background: linear-gradient(1deg, #000000, #c51717);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ffcc00;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.4);
+    font-family: "Press Start 2P", sans-serif;
+}
+
+
+nav img {
+    height: 55px;
+    border: 2px solid #ffcc00;
+    
+    border-radius: 6px;
+    padding: 4px;
+}
+
+
+.nav-items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+
+.nav-items h2 {
+    font-family: sans-serif;
+    text-decoration: none;
+    color: yellow;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+
+.nav-items h2:hover {
+    background:black;
+    color: #fdc105;
+    border-radius: 6px;
+}
+
+
+.nav-items h2.active {
+    background: #ffcc00;
+    color: black;
+    padding: 8px 14px;
+    border-radius: 6px;
+}
