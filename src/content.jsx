@@ -39,10 +39,7 @@ const content = () => {
           <ul>
             <li>
               Successfully selecting the higher Base Experience Pokémon in all
-              three trials earns the player the{" "}
-              <strong>"Champion's Medal"</strong> and unlocks a{" "}
-              <strong>Pokédex bonus fact</strong> about the final Pokémon they
-              selected.
+            three trials earns the player the title of Pokémon Champion.
             </li>
           </ul>
 
